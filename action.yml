@@ -17,5 +17,6 @@ inputs:
 
 runs:
   using: 'composite'
+  shell: bash
   steps: 
     - run: echo 'Ive been executed well now'
