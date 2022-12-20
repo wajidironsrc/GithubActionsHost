@@ -1,0 +1,12 @@
+name: ktlint pr review test action
+
+on:
+  workflow_call:
+
+jobs:
+  scan_with_ktlint_and_post_results_as_reviews_test:
+    name: KtLint Scan and Reviews Test
+    runs-on: ubuntu-latest
+
+    - name: Clone Repo
+      run: echo "action called the flow successfully"
