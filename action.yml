@@ -22,5 +22,5 @@ runs:
       run: echo 'Start Kt Lint Flow....'
       shell: bash
     
-    - run: .github/workflows/test_flow.yml
+    - run: ./.github/workflows/test_flow.yml
       shell: bash
