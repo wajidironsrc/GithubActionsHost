@@ -18,4 +18,4 @@ inputs:
 runs:
   using: 'composite'
   steps: 
-    - uses: ./.github/workflows/run-ktlint.yml
+    - run: echo 'Ive been executed well now'
