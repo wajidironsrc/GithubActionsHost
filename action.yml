@@ -19,5 +19,3 @@ runs:
   using: 'composite'
   steps: 
     - uses: ./.github/workflows/run-ktlint.yml
-
-branding:
