@@ -19,6 +19,5 @@ runs:
   using: 'composite'
   steps: 
     - uses: ./.github/workflows/run-ktlint.yml
-    - name: Run Ktlint scan and post comments
 
 branding:
