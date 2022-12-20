@@ -1,6 +1,24 @@
-a
-a
-a
-a
-a
-a
+name: 'Kt Lint PR Review'
+description: 'Run Ktlint in your repo, collect results and post PR reviews if there are any ktlint comments in your changed files of the PR'
+
+inputs:
+  github_token:
+    description: 'Github token is required to fetch changes of the PR and post comments'
+    required: true
+
+  event_file_path:
+    description: 'Event file path contains info about this PR, so the Github REST APIs need that info which is why this is required too'
+    required: true
+
+  ktlint_version:
+    description: 'ktlint version, if not specified, 0.44.0 will be used as default'
+    required: false
+
+
+runs:
+  using: 'composite'
+  steps: 
+    - uses: ./.github/workflows/run-ktlint.yml
+    - name: Run Ktlint scan and post comments
+
+branding:
