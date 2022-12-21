@@ -17,4 +17,4 @@ FROM openjdk:8-alpine
 COPY run-scripts.sh /run-scripts.sh
 RUN chmod +x /run-scripts.sh
 
-ENTRYPOINT /bin/bash /run-scripts.sh
+ENTRYPOINT /run-scripts.sh
