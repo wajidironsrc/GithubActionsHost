@@ -9,5 +9,6 @@ cp /ktlint $GITHUB_WORKSPACE
 # curl -s "https://get.sdkman.io" | bash
 # echo 'sdkman installation done'
 
+
 echo 'Starting main script file...'
-kotlinc -script ./github-pr-reviews.main.kts $INPUT_EVENT_FILE_PATH $INPUT_GITHUB_TOKEN
+kscript ./github-pr-reviews.main.kts $INPUT_EVENT_FILE_PATH $INPUT_GITHUB_TOKEN
