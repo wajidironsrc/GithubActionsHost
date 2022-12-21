@@ -32,6 +32,8 @@ RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install kscript 3.1.0
 # installing Kt Lint
 RUN curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.41.0/ktlint && chmod a+x ktlint
 
+RUN printenv PATH
+
 # checking kscript installation
 # RUN kscript --help
 
