@@ -34,6 +34,11 @@ RUN curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.41.0/ktli
 
 RUN printenv PATH
 
+RUN export KOTLIN_HOME=/usr/local/bin/kotlin
+RUN export PATH=$PATH:$KOTLIN_HOME/bin
+
+RUN printenv PATH
+
 # checking kscript installation
 # RUN kscript --help
 
