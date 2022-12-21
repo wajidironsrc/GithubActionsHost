@@ -11,8 +11,8 @@ RUN curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.41.0/ktli
 # # COPY executeMakePrComments /executeMakePrComments
 # # RUN chmod +x /executeMakePrComments
 
-ADD .github/scripts/ktlint/github-pr-reviews.main /github-pr-reviews.main
-RUN chmod +x /github-pr-reviews.main
+ADD .github/scripts/ktlint/github-pr-reviews.main.kts /github-pr-reviews.main.kts
+RUN chmod +x /github-pr-reviews.main.kts
 
 COPY run-scripts.sh /run-scripts.sh
 RUN chmod +x /run-scripts.sh
