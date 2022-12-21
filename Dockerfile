@@ -26,7 +26,7 @@ RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install kotlin 1.4.31
 # installing KScript
 RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install kscript 3.1.0
 
-installing package execution scripts
+# installing package execution scripts
 RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && /bin/bash package-scripts.sh
 
 # installing Kt Lint
