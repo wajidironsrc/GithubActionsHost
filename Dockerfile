@@ -14,7 +14,7 @@ FROM openjdk:8-alpine
 # COPY github-pr-reviews.main /github-pr-reviews.main
 # RUN chmod +x /github-pr-reviews.main
 
-# COPY image/run-scripts.sh /run-scripts.sh
-# RUN chmod +x /run-scripts.sh
+COPY run-scripts.sh /run-scripts.sh
+RUN chmod +x /run-scripts.sh
 
 ENTRYPOINT /bin/bash /run-scripts.sh
