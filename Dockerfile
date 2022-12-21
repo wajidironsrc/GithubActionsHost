@@ -5,8 +5,10 @@ RUN apk upgrade --update && \
 
 # installing zip and unzip
 # RUN apt-get update
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-RUN apt-get -qq -y install curl wget unzip zip
+# RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN apk add zip
+RUN apk add unzip
+# RUN apt-get -qq -y install curl wget unzip zip
 
 # installing SDK man
 RUN curl -s "https://get.sdkman.io" | bash
