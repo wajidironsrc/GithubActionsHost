@@ -7,8 +7,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
 RUN useradd -ms /bin/bash apprunner
 USER apprunner
 
-RUN apk upgrade --update && \
-	apk add bash curl
+# RUN apk upgrade --update && \
+# 	apk add bash curl
 
 # installing zip and unzip
 RUN apt-get update
