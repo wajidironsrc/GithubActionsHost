@@ -1,4 +1,4 @@
-@file:Repository(" https://repo.maven.apache.org/maven2/")
+@file:Repository("https://repo.maven.apache.org/maven2/")
 @file:DependsOn("com.squareup.moshi:moshi:1.9.3")
 @file:DependsOn("com.squareup.moshi:moshi-kotlin:1.9.3")
 @file:DependsOn("com.squareup.retrofit2:retrofit:2.9.0")
