@@ -37,8 +37,8 @@ RUN printenv PATH
 RUN export KOTLIN_HOME=/usr/local/bin/kotlin
 RUN export PATH=$PATH:$KOTLIN_HOME/bin
 
-RUN printenv KOTLIN_HOME
 RUN printenv PATH
+RUN echo $KOTLIN_HOME
 
 # checking kscript installation
 # RUN kscript --help
