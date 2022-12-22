@@ -14,20 +14,20 @@ inputs:
     description: 'ktlint version, if not specified, 0.44.0 will be used as default'
     required: false
 
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.github_token }}
-    - ${{ inputs.even_file_path }}
-    - ${{ inputs.ktlint_version }}
-
 # runs:
-#   using: 'composite'
-#   steps: 
-#     - name: Starting Kt Lint Flow
-#       run: echo 'Start Kt Lint Flow....'
-#       shell: bash
+#   using: 'docker'
+#   image: 'Dockerfile'
+#   args:
+#     - ${{ inputs.github_token }}
+#     - ${{ inputs.even_file_path }}
+#     - ${{ inputs.ktlint_version }}
+
+runs:
+  using: 'composite'
+  steps: 
+    - name: Starting Kt Lint Flow
+      run: echo 'Start Kt Lint Flow....'
+      shell: bash
     
-#     - run: test_flow.yml
-#       shell: bash
+    - run: ./test_flow.yml
+      shell: bash

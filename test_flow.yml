@@ -8,5 +8,6 @@ jobs:
     name: KtLint Scan and Reviews Test
     runs-on: ubuntu-latest
 
-    - name: Clone Repo
-      run: echo "action called the flow successfully"
+    steps:
+      - name: Clone Repo
+        run: echo "action called the flow successfully"
