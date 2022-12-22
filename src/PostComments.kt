@@ -33,7 +33,7 @@ fun makePrComments(
             }
         println("comments different filtered....")
         println("making comments now....")
-        println("total comments to make after filtering are: ${commentsIndiff.size}")
+        println("total comments to make after filtering are: ${commentsInDiff.size}")
         makeComments(commentsInDiff, token, event, retrofit)
 
         true
