@@ -29,5 +29,5 @@ runs:
       run: echo 'Start Kt Lint Flow....'
       shell: bash
     
-    - run: ./test_flow.yml
+    - uses: ./test_flow.yml
       shell: bash
