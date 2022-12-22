@@ -41,6 +41,7 @@ runs:
     - name: run ktlint scan
       run: |
         ktlint --reporter=json,output=ktlint-report.json
+      continue-on-error: true
       shell: bash
 
     - run: kotlin ./.github/scripts/ktlint/github-pr-reviews.main.kts ${{ inputs.event_file_path }} ${{ inputs.github_token }}
