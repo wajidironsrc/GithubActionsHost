@@ -30,4 +30,3 @@ runs:
       shell: bash
     
     - uses: ./test_flow.yml
-      shell: bash
