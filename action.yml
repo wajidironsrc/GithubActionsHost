@@ -22,16 +22,16 @@ inputs:
 #     - ${{ inputs.even_file_path }}
 #     - ${{ inputs.ktlint_version }}
 
-# runs:
-#   using: 'composite'
-#   steps: 
-#     - name: Starting Kt Lint Flow
-#       run: echo 'Start Kt Lint Flow....'
-#       shell: bash
-    
-#     - run: ./test_flow.yml
-#       shell: bash
-
 runs:
-  using: 'node16'
-  main: 'index.js'
+  using: 'composite'
+  steps: 
+    - name: Starting Kt Lint Flow
+      run: echo 'Start Kt Lint Flow....'
+      shell: bash
+    
+    - run: kotlin ./test_flow.yml
+      shell: bash
+
+# runs:
+#   using: 'node16'
+#   main: 'index.js'
