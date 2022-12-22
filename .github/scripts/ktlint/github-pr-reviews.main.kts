@@ -18,9 +18,11 @@ val ktLintReport = "ktlint-report.json"
 val eventFilePath = args[0]
 val token = args[1]
 
+println("Hey I am printing the arguments")
 
 println("Event File path: $eventFilePath")
-println("Event File path: $eventFilePath")
+println("Github Token: $token")
+
 val file = File(eventFilePath)
 val listLines = file.readLines()
 for(line in listLines) {

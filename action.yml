@@ -29,10 +29,7 @@ runs:
       run: echo 'Start Kt Lint Flow....'
       shell: bash
     
-    - run: kotlin ./.github/scripts/ktlint/github-pr-reviews.main.kts
-      args:
-        - ${{ inputs.even_file_path }}
-        - ${{ inputs.github_token }}
+    - run: kotlin ./.github/scripts/ktlint/github-pr-reviews.main.kts 'Hi this is first' 'Hey this is second'
       shell: bash
 
 # runs:
