@@ -10,18 +10,6 @@ inputs:
     description: 'Event file path contains info about this PR, so the Github REST APIs need that info which is why this is required too'
     required: true
 
-  ktlint_version:
-    description: 'ktlint version, if not specified, 0.44.0 will be used as default'
-    required: false
-
-# runs:
-#   using: 'docker'
-#   image: 'Dockerfile'
-#   args:
-#     - ${{ inputs.github_token }}
-#     - ${{ inputs.even_file_path }}
-#     - ${{ inputs.ktlint_version }}
-
 runs:
   using: 'composite'
   steps: 
@@ -44,9 +32,5 @@ runs:
       continue-on-error: true
       shell: bash
 
-    - run: kotlin ./.github/scripts/ktlint/github-pr-reviews.main.kts ${{ inputs.event_file_path }} ${{ inputs.github_token }}
+    - run: kotlin ./src/github-pr-reviews.main.kts ${{ inputs.event_file_path }} ${{ inputs.github_token }}
       shell: bash
-
-# runs:
-#   using: 'node16'
-#   main: 'index.js'
