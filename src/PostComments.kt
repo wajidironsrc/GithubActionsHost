@@ -153,6 +153,7 @@ fun convertKtlintReportToGithubPrComments(
                                 && githubReviewCommentsListResponseItem.path == fileName
                     }
                     if(isAlreadyAdded == null) {
+                        println("adding to list: line: ${ktlintError.line}, fileName: ${fileName}, message: ${ktlintError.message}")
                         list.add(
                             GithubPrComment(
                                 ktlintError.message,
