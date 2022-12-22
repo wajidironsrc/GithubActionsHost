@@ -35,3 +35,4 @@ runs:
     - run: |
         kotlin src/github-pr-reviews.main.kts ${{ inputs.event_file_path }} ${{ inputs.github_token }}
       shell: bash
+      
