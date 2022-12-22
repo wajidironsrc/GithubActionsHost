@@ -5,32 +5,26 @@ FROM ubuntu:22.04
 
 # installing zip and unzip
 RUN apt-get update
-# RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 # RUN apk add zip
 # RUN apk add unzip
-# RUN apt-get -qq -y install curl wget unzip zip
+RUN apt-get -qq -y install curl wget unzip zip
 
 # installing SDK man
-# RUN curl -s "https://get.sdkman.io" | bash
-# RUN source "$HOME/.sdkman/bin/sdkman-init.sh"
+RUN curl -s "https://get.sdkman.io" | bash
+RUN source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-# # installing java
-# RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install java 11.0.10.hs-adpt
+# installing java
+RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install java 11.0.10.hs-adpt
 
-# # installing gradle
-# RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install gradle 6.6
+# installing gradle
+RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install gradle 6.6
 
-# # installing Kotlin
-# RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install kotlin
-
-RUN apt install default-jdk
-RUN apt install default-jre
-
-RUN java -version
-RUN kotlin --version
+# installing Kotlin
+RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install kotlin 1.4.31
 
 # installing KScript
-# RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install kscript 3.1.0
+RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install kscript 3.1.0
 
 # # installing package execution scripts
 # RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && /bin/bash package-scripts.sh
@@ -38,16 +32,16 @@ RUN kotlin --version
 # installing Kt Lint
 RUN curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.41.0/ktlint && chmod a+x ktlint
 
-RUN printenv PATH
+# RUN printenv PATH
 
-RUN export KOTLIN_HOME=/usr/local/bin/kotlin
-RUN export PATH=$PATH:$KOTLIN_HOME/bin
+# RUN export KOTLIN_HOME=/usr/local/bin/kotlin
+# RUN export PATH=$PATH:$KOTLIN_HOME/bin
 
-RUN printenv PATH
-RUN echo $KOTLIN_HOME
+# RUN printenv PATH
+# RUN echo $KOTLIN_HOME
 
 # checking kscript installation
-# RUN kscript --help
+RUN kscript
 
 # COPY executeCollectPrChanges /executeCollectPrChanges
 # RUN chmod +x /executeCollectPrChanges
