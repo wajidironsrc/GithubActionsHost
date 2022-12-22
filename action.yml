@@ -32,7 +32,28 @@ runs:
       continue-on-error: true
       shell: bash
 
+    - run: kotlin -help
+      continue-on-error: true
+      shell: bash
+
     - run: kotlin .github/scripts/github-pr-reviews.main.kts 'one' 'two'
+      continue-on-error: true
+      shell: bash
+
+    - run: kotlin src/github-pr-reviews.main.kts 'one' 'two'
+      continue-on-error: true
+      shell: bash
+
+    - run: kotlin ./src/github-pr-reviews.main.kts 'one' 'two'
+      continue-on-error: true
+      shell: bash
+
+    - run: kotlinc src/github-pr-reviews.main.kts 'one' 'two'
+      continue-on-error: true
+      shell: bash
+
+    - run: kotlinc ./src/github-pr-reviews.main.kts 'one' 'two'
+      continue-on-error: true
       shell: bash
 
     # - run: kotlin ./.github/scripts/github-pr-reviews.main.kts ${{ inputs.event_file_path }} ${{ inputs.github_token }}
