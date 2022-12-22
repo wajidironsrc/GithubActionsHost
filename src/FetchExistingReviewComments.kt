@@ -26,11 +26,19 @@ fun fetchAlreadyMadeComments(eventFilePath: String, token: String) : List<Github
     val fetchCommentsService = createRetrofit().create(GithubFetchPrCommentsService::class.java)
     val requestCall = fetchCommentsService.fetchComments(
         token = "Bearer $token",
-        owner = event.pull_request.user.login,
+        owner = event.repository.owner.login,
         repo = event.repository.name,
         pullNumber = event.pull_request.number,
     )
+
+    println("********************************Fetch PR Comment/Reviews API****************************************")
     val response = requestCall.execute()
+
+    println("result of http while fetching PR Reviews: $response")
+    println("raw response: ${response.raw()}")
+    println("response message: ${response.message()}")
+    println("response code: ${response.code()}, isSuccessful: ${response.isSuccessful}")
+
     val listOfComments = response.body() ?: emptyList()
     val moshiAdapter = createMoshi().adapter(GithubReviewCommentsListResponseItem::class.java)
     listOfComments.forEach {

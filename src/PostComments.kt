@@ -33,6 +33,7 @@ fun makePrComments(
             }
         println("comments different filtered....")
         println("making comments now....")
+        println("total comments to make after filtering are: ${commentsIndiff.size}")
         makeComments(commentsInDiff, token, event, retrofit)
 
         true
@@ -161,11 +162,12 @@ fun convertKtlintReportToGithubPrComments(
                             )
                         )
                     } else {
-                        println("skipping item: ${ktlintError.line}, ${ktlintError.message}, $fileName")
+                        println("skipping item for already comment is made: line: ${ktlintError.line}, message: ${ktlintError.message}, fileName: $fileName")
                     }
                 }
             }
         }
+        println("total comments to be made: ${list.size}")
         list
     } catch (ex: java.lang.Exception) {
         val errorMessage = if (ex.message.isNullOrBlank())
