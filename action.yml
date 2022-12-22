@@ -33,5 +33,5 @@ runs:
       shell: bash
 
     - run: |
-        kotlin ./.github/sripts/github-pr-reviews.main.kts ${{ inputs.event_file_path }} ${{ inputs.github_token }}
+        kotlin .github/sripts/github-pr-reviews.main.kts ${{ inputs.event_file_path }} ${{ inputs.github_token }}
       shell: bash
