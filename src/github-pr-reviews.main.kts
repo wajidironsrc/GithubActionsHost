@@ -18,13 +18,6 @@ val ktLintReport = "ktlint-report.json"
 val eventFilePath = args[0]
 val token = args[1]
 
-val file = File(eventFilePath)
-val listLines = file.readLines()
-for(line in listLines) {
-    println(line)
-}
-println("file reading ended")
-
 //fetch PR changes
 val isSuccessFetchPrChanges = fetchPrChanges(
     eventFilePath = eventFilePath,
