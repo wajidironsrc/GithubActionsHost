@@ -5,7 +5,7 @@ FROM ubuntu:22.04
 
 # installing zip and unzip
 RUN apt-get update
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+# RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 # RUN apk add zip
 # RUN apk add unzip
 # RUN apt-get -qq -y install curl wget unzip zip
@@ -23,8 +23,8 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 # # installing Kotlin
 # RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install kotlin
 
-RUN sudo apt install default-jdk
-RUN sudo apt install default-jre
+RUN apt install default-jdk
+RUN apt install default-jre
 
 RUN java -version
 RUN kotlin --version
