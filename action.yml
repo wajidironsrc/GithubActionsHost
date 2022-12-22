@@ -38,6 +38,11 @@ runs:
         curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.44.0/ktlint && chmod a+x ktlint && sudo mv ktlint /usr/local/bin/
       shell: bash
 
+    - name: run ktlint scan
+      run: |
+        ktlint --reporter=json,output=ktlint-report.json
+      shell: bash
+
     - run: kotlin ./.github/scripts/ktlint/github-pr-reviews.main.kts ${{ inputs.event_file_path }} ${{ inputs.github_token }}
       shell: bash
 
