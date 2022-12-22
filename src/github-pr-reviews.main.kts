@@ -18,10 +18,6 @@ val ktLintReport = "ktlint-report.json"
 val eventFilePath = args[0]
 val token = args[1]
 
-println("one: $eventFilePath")
-println("two: $token")
-exitProcess(0)
-
 //fetch PR changes
 val isSuccessFetchPrChanges = fetchPrChanges(
     eventFilePath = eventFilePath,
