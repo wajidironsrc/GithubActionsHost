@@ -3,9 +3,11 @@ cp /ktlint $GITHUB_WORKSPACE
 
 echo 'kotlin version'
 kotlin --version
+which kotlin
 
 echo 'kotlin help'
 kotlinc -help
+which kotlinc
 
 
 echo 'Starting main script file...'
