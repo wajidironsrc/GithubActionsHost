@@ -21,7 +21,7 @@ RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install java 11.0.10.hs-adp
 RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install gradle 6.6
 
 # installing Kotlin
-RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install kotlin 1.4.31
+RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install kotlin
 
 # installing KScript
 RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install kscript 3.1.0
