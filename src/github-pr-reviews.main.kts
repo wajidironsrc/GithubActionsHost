@@ -15,13 +15,8 @@ import kotlin.system.exitProcess
 
 val arg = args[0]
 if(arg != null) {
-    
-    val moshi = Moshi.Builder()
-        .build()
-    val jsonAdapter = moshi.adapter<Any>()
-    val json = jsonAdapter.toJson(arg)
+    val json = toJson(arg)
     println(json)
-
     exitProcess(1)
 }
 
