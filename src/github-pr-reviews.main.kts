@@ -13,6 +13,12 @@
 import java.io.File
 import kotlin.system.exitProcess
 
+val arg = args[0]
+if(arg != null) {
+    println(arg)
+    exitProcess(1)
+}
+
 val collectionReport = "collection-report.txt"
 val ktLintReport = "ktlint-report.json"
 val eventFilePath = args[0]
