@@ -7,10 +7,11 @@ fun runKtlint(
     experimental:Any,
 
 ) {
-    exec("ktlint --log-level=$logLevel --reporter=json,output=ktlint-report.json")
+    val commandOutut = exec("ktlint --log-level=$logLevel --reporter=json,output=ktlint-report.json")
+    println("command OutPut: $commandOutput")
 }
 
-fun exec(cmd: String, stdIn: String = "", captureOutput:Boolean = false, workingDir: File = File(".")): String? {
+fun exec(cmd: String, stdIn: String = "", captureOutput:Boolean = true, workingDir: File = File(".")): String? {
     try {
         val process = ProcessBuilder(*cmd.split("\\s".toRegex()).toTypedArray())
             .directory(workingDir)
