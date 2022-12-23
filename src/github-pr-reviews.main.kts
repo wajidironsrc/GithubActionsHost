@@ -4,28 +4,28 @@
 @file:DependsOn("com.squareup.retrofit2:retrofit:2.9.0")
 @file:DependsOn("com.squareup.retrofit2:converter-moshi:2.9.0")
 @file:DependsOn("com.squareup.okhttp3:logging-interceptor:4.7.2")
-@file:DependsOn("com.google.code.gson:gson:2.9.0")
 @file:Import("DataModels.kt")
 @file:Import("FetchPrChanges.kt")
 @file:Import("PostComments.kt")
 @file:Import("FetchExistingReviewComments.kt")
 @file:Import("RestUtil.kt")
+@file:Import("RunKtlint.kt")
 
 import java.io.File
 import kotlin.system.exitProcess
-import com.google.gson.Gson
-
-val arg = args[0]
-if(arg != null) {
-    val json = Gson().toJson(arg)
-    println(json)
-    exitProcess(1)
-}
 
 val collectionReport = "collection-report.txt"
 val ktLintReport = "ktlint-report.json"
 val eventFilePath = args[0]
 val token = args[1]
+val logLevel = args[2]
+val experimental = args[3]
+
+//execute ktlint
+val isSuccess = runKtlint(
+    logLevel,
+    experimental
+)
 
 //fetch PR changes
 val isSuccessFetchPrChanges = fetchPrChanges(
