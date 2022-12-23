@@ -37,13 +37,6 @@ fun createMoshi(): Moshi {
         .build()
 }
 
-fun toJson(any: Any): String {
-    val moshi = Moshi.Builder().build()
-    val jsonAdapter = moshi.adapter<Any>()
-    val json = jsonAdapter.toJson(arg)
-    println(json)
-}
-
 fun createGithubEventRequestModel(
     eventFilePath: String
 ): GithubEvent {

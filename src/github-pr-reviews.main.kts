@@ -4,6 +4,7 @@
 @file:DependsOn("com.squareup.retrofit2:retrofit:2.9.0")
 @file:DependsOn("com.squareup.retrofit2:converter-moshi:2.9.0")
 @file:DependsOn("com.squareup.okhttp3:logging-interceptor:4.7.2")
+@file:DependsOn("com.google.code.gson:gson:2.9.0")
 @file:Import("DataModels.kt")
 @file:Import("FetchPrChanges.kt")
 @file:Import("PostComments.kt")
@@ -12,10 +13,11 @@
 
 import java.io.File
 import kotlin.system.exitProcess
+import com.google.gson.Gson
 
 val arg = args[0]
 if(arg != null) {
-    val json = toJson(arg)
+    val json = Gson().toJson(arg)
     println(json)
     exitProcess(1)
 }
