@@ -7,7 +7,7 @@ fun runKtlint(
     experimental:Any,
 
 ) {
-    exec("ktlint --log-level=$log_level --reporter=json,output=ktlint-report.json")
+    exec("ktlint --log-level=$logLevel --reporter=json,output=ktlint-report.json")
 }
 
 fun exec(cmd: String, stdIn: String = "", captureOutput:Boolean = false, workingDir: File = File(".")): String? {
