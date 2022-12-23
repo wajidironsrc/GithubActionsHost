@@ -3,8 +3,8 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 fun runKtlint(
-    logLevel,
-    experimental,
+    logLevel:Any,
+    experimental:Any,
 
 ) {
     exec("ktlint --log-level=$log_level --reporter=json,output=ktlint-report.json")
