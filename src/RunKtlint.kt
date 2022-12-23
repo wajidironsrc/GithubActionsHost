@@ -7,7 +7,7 @@ fun runKtlint(
     experimental:Any,
 
 ) {
-    val commandOutut = exec("ktlint --log-level=$logLevel --reporter=json,output=ktlint-report.json")
+    val commandOutput = exec("ktlint --log-level=$logLevel --reporter=json,output=ktlint-report.json")
     println("command OutPut: $commandOutput")
 }
 
