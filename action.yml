@@ -10,6 +10,11 @@ inputs:
     description: 'Event file path contains info about this PR, so the Github REST APIs need that info which is why this is required too'
     required: true
 
+  ktlint_version:
+    description: 'specify ktlint version if you need speical version, default version will be 0.48.0'
+    default: 0.48.0
+    required: false
+
 runs:
   using: 'composite'
   steps: 
@@ -23,7 +28,7 @@ runs:
 
     - name: Downloading KtLint
       run: |
-        curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.44.0/ktlint && chmod a+x ktlint && sudo mv ktlint /usr/local/bin/
+        curl -sSLO https://github.com/pinterest/ktlint/releases/download/${{inputs.ktlint_version}}/ktlint && chmod a+x ktlint && sudo mv ktlint /usr/local/bin/
       shell: bash
 
     - name: run ktlint scan
