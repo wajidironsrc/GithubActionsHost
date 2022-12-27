@@ -22,9 +22,10 @@ val logLevel = args[2]
 val experimental = args[3]
 
 //execute ktlint
-val isSuccess = runKtlint(
+runKtlint(
     logLevel,
-    experimental
+    experimental,
+    ktLintReport
 )
 
 //fetch PR changes

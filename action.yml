@@ -16,7 +16,7 @@ inputs:
     required: false
 
   log_level:
-    description: use either of 'trace', 'debug', 'info', 'warn', 'error', or 'none'
+    description: use either of 'trace', 'debug', 'info', 'warn', 'error', or 'none', default is 'info'
     default: 'info'
     required: false
 

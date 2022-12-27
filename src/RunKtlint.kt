@@ -5,9 +5,10 @@ import java.util.concurrent.TimeUnit
 fun runKtlint(
     logLevel:Any,
     experimental:Any,
+    outputFileName:String
 
 ) {
-    val commandOutput = exec("ktlint --log-level=$logLevel --reporter=json,output=ktlint-report.json")
+    val commandOutput = exec("ktlint --log-level=$logLevel --reporter=json,output=$outputFileName")
     println("command OutPut: $commandOutput")
 }
 
