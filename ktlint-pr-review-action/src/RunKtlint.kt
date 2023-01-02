@@ -10,11 +10,11 @@ fun runKtlint(
 ) {
     var command = "ktlint --log-level=$logLevel --reporter=json,output=$outputFileName"
     //setting editorConfig file path
-    if(configFilePath != "/")
+    if (configFilePath != "/")
         command = "$command --editorconfig=$configFilePath"
 
     //setting experimental rules
-    if(experimental.toBoolean() == true)
+    if (experimental.toBoolean() == true)
         command = "$command --experimental"
 
     println("Running command for KtLint Scan: $command")
@@ -28,7 +28,7 @@ fun exec(cmd: String, stdIn: String = "", captureOutput: Boolean = true, working
             .directory(workingDir)
             .redirectOutput(if (captureOutput) ProcessBuilder.Redirect.PIPE else ProcessBuilder.Redirect.INHERIT)
             .redirectError(if (captureOutput) ProcessBuilder.Redirect.PIPE else ProcessBuilder.Redirect.INHERIT)
-            .start().apply {
+            .start()/*.apply {
                 if (stdIn != "") {
                     outputStream.bufferedWriter().apply {
                         write(stdIn)
@@ -37,7 +37,10 @@ fun exec(cmd: String, stdIn: String = "", captureOutput: Boolean = true, working
                     }
                 }
                 waitFor(60, TimeUnit.SECONDS)
-            }
+            }*/
+
+        process.inputStream.transferTo(System.out)
+        process.errorStream.transferTo(System.err)
         if (captureOutput) {
             return process.inputStream.bufferedReader().readText()
         }
