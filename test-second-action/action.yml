@@ -1,0 +1,14 @@
+name: 'Kt Lint PR Review'
+description: 'Run Ktlint in your repo, collect results and post PR reviews if there are any ktlint comments in your changed files of the PR'
+
+inputs:
+  nameToPrint:
+    description: 'Give me a name to say hello to...'
+    required: true
+
+runs:
+  using: 'composite'
+  steps: 
+    - name: Printing Hello concate with input
+      run: echo 'Hello ${{ inputs.nameToPrint }} .....'
+      shell: bash
