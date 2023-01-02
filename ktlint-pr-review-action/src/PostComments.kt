@@ -1,12 +1,10 @@
 import java.lang.System
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.HttpUrl
 import retrofit2.Call
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 import java.io.File
+import com.google.gson.Gson
 
 
 fun makePrComments(
@@ -21,7 +19,7 @@ fun makePrComments(
 
     return try {
         val allChanges = loadChanges(collectionReportPath)
-        val report = createKtlintReport(ktlintReportPath, createMoshi())
+        val report = createKtlintReport(ktlintReportPath)
         val event = createGithubEventRequestModel(eventFilePath)
         val comments =
             convertKtlintReportToGithubPrComments(report, event, allChanges.map { it.name }, listOfAlreadyMadeComments)
@@ -79,15 +77,13 @@ data class FileChanges(
 }
 
 fun createKtlintReport(
-    pathToKtlintReport: String, moshi: Moshi
+    pathToKtlintReport: String
 ): KtlintReport {
 
     println("fun createKtlintReport: pathToKtlintReport=$pathToKtlintReport")
 
     val json = "{\"errors\": ${File(pathToKtlintReport).readText()}}"
-    return moshi.adapter(KtlintReport::class.java)
-        .fromJson(json)
-        ?: throw Exception("")
+    return Gson().fromJson(json, KtlintReport::class.java)
 }
 
 fun makeComments(

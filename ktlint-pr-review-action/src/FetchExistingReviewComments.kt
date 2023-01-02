@@ -1,12 +1,10 @@
 import java.lang.System
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.HttpUrl
 import retrofit2.Call
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 import java.io.File
+import com.google.gson.Gson
 
 
 interface GithubFetchPrCommentsService {
@@ -40,9 +38,9 @@ fun fetchAlreadyMadeComments(eventFilePath: String, token: String) : List<Github
     println("response code: ${response.code()}, isSuccessful: ${response.isSuccessful}")
 
     val listOfComments = response.body() ?: emptyList()
-    val moshiAdapter = createMoshi().adapter(GithubReviewCommentsListResponseItem::class.java)
+    val gson = Gson()
     listOfComments.forEach {
-        println("${moshiAdapter.toJson(it)}")
+        println("${gson.toJson(it)}")
     }
 
     return listOfComments
