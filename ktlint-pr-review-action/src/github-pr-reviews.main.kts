@@ -20,12 +20,14 @@ val eventFilePath = args[0]
 val token = args[1]
 val logLevel = args[2]
 val experimental = args[3]
+val configFilePath = args[4]
 
 //execute ktlint
 runKtlint(
     logLevel,
     experimental,
-    ktLintReport
+    ktLintReport,
+    configFilePath
 )
 
 //fetch PR changes

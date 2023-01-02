@@ -25,6 +25,11 @@ inputs:
     default: false
     required: false
 
+  configFilePath:
+    description: path to .editorConfig file. by default it will look for it in the root of the repo
+    default: '/'
+    required: false
+
 runs:
   using: 'composite'
   steps: 
@@ -47,6 +52,6 @@ runs:
     #   continue-on-error: true
     #   shell: bash
 
-    - run: kotlin ${GITHUB_ACTION_PATH}/src/github-pr-reviews.main.kts ${{ inputs.event_file_path }} ${{ inputs.github_token }} ${{ inputs.log_level }} ${{ inputs.experimental }}
+    - run: kotlin ${GITHUB_ACTION_PATH}/src/github-pr-reviews.main.kts ${{ inputs.event_file_path }} ${{ inputs.github_token }} ${{ inputs.log_level }} ${{ inputs.experimental }} ${{ inputs.configFilePath }}
       continue-on-error: true
       shell: bash

@@ -3,16 +3,26 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 fun runKtlint(
-    logLevel:Any,
-    experimental:Any,
-    outputFileName:String
-
+    logLevel: Any,
+    experimental: Boolean,
+    outputFileName: String,
+    configFilePath: String
 ) {
-    val commandOutput = exec("ktlint --log-level=$logLevel --reporter=json,output=$outputFileName")
+    var command = "ktlint --log-level=$logLevel --reporter=json,output=$outputFileName"
+    //setting editorConfig file path
+    if(configFilePath != "/")
+        command = "$command --editorconfig=$configFilePath"
+
+    //setting experimental rules
+    if(experimental)
+        command = "$command --experimental"
+
+    println("Running command for KtLint Scan: $command")
+    val commandOutput = exec(command)
     println("command OutPut: $commandOutput")
 }
 
-fun exec(cmd: String, stdIn: String = "", captureOutput:Boolean = true, workingDir: File = File(".")): String? {
+fun exec(cmd: String, stdIn: String = "", captureOutput: Boolean = true, workingDir: File = File(".")): String? {
     try {
         val process = ProcessBuilder(*cmd.split("\\s".toRegex()).toTypedArray())
             .directory(workingDir)
