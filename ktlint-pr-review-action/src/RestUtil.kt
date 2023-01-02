@@ -9,6 +9,8 @@ import retrofit2.http.*
 import java.io.File
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 
 fun createRetrofit(): Retrofit {
@@ -26,7 +28,8 @@ fun createRetrofit(): Retrofit {
 
     return Retrofit.Builder()
         .baseUrl(HttpUrl.get("https://api.github.com"))
-        .addConverterFactory(MoshiConverterFactory.create(createMoshi()))
+//        .addConverterFactory(MoshiConverterFactory.create(createMoshi()))
+        .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()
 }

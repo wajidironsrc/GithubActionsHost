@@ -4,6 +4,7 @@
 @file:DependsOn("com.squareup.retrofit2:retrofit:2.9.0")
 @file:DependsOn("com.squareup.retrofit2:converter-moshi:2.9.0")
 @file:DependsOn("com.squareup.okhttp3:logging-interceptor:4.7.2")
+@file:DependsOn("com.squareup.retrofit2:converter-gson:2.9.0")
 @file:Import("DataModels.kt")
 @file:Import("FetchPrChanges.kt")
 @file:Import("PostComments.kt")

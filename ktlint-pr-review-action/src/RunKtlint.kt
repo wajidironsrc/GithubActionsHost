@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit
 
 fun runKtlint(
     logLevel: Any,
-    experimental: Boolean,
+    experimental: String,
     outputFileName: String,
     configFilePath: String
 ) {
@@ -14,7 +14,7 @@ fun runKtlint(
         command = "$command --editorconfig=$configFilePath"
 
     //setting experimental rules
-    if(experimental)
+    if(experimental.toBoolean() == true)
         command = "$command --experimental"
 
     println("Running command for KtLint Scan: $command")
