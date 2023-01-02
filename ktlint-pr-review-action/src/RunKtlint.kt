@@ -18,32 +18,18 @@ fun runKtlint(
         command = "$command --experimental"
 
     println("Running command for KtLint Scan: $command")
-    val commandOutput = exec(command)
-    println("command OutPut: $commandOutput")
 }
 
-fun exec(cmd: String, stdIn: String = "", captureOutput: Boolean = true, workingDir: File = File(".")): String? {
+fun exec(cmd: String, workingDir: File = File(".")): String? {
     try {
         val process = ProcessBuilder(*cmd.split("\\s".toRegex()).toTypedArray())
             .directory(workingDir)
-            .redirectOutput(if (captureOutput) ProcessBuilder.Redirect.PIPE else ProcessBuilder.Redirect.INHERIT)
-            .redirectError(if (captureOutput) ProcessBuilder.Redirect.PIPE else ProcessBuilder.Redirect.INHERIT)
-            .start()/*.apply {
-                if (stdIn != "") {
-                    outputStream.bufferedWriter().apply {
-                        write(stdIn)
-                        flush()
-                        close()
-                    }
-                }
-                waitFor(60, TimeUnit.SECONDS)
-            }*/
+//            .redirectOutput(if (captureOutput) ProcessBuilder.Redirect.PIPE else ProcessBuilder.Redirect.INHERIT)
+//            .redirectError(if (captureOutput) ProcessBuilder.Redirect.PIPE else ProcessBuilder.Redirect.INHERIT)
+            .start()
 
         process.inputStream.transferTo(System.out)
         process.errorStream.transferTo(System.err)
-        if (captureOutput) {
-            return process.inputStream.bufferedReader().readText()
-        }
     } catch (e: IOException) {
         e.printStackTrace()
     }
