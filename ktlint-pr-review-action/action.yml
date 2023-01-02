@@ -22,7 +22,7 @@ inputs:
 
   experimental:
     description: enable or disable experimental rules
-    default: false
+    default: 'false'
     required: false
 
   configFilePath:
