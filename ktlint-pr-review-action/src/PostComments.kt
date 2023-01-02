@@ -83,7 +83,9 @@ fun createKtlintReport(
     println("fun createKtlintReport: pathToKtlintReport=$pathToKtlintReport")
 
     val json = "{\"errors\": ${File(pathToKtlintReport).readText()}}"
-    return Gson().fromJson(json, KtlintReport::class.java)
+    val ktLintReport = Gson().fromJson(json, KtlintReport::class.java)
+    println("Number of errors/warnings found by KtLint: ${ktLintReport.errors.size ?: -1}")
+    return ktLintReport
 }
 
 fun makeComments(
