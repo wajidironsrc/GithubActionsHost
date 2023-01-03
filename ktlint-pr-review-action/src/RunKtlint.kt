@@ -8,7 +8,7 @@ fun runKtlint(
     outputFileName: String,
     configFilePath: String
 ) {
-    var command = "ktlint --log-level=error --reporter=json,output=$outputFileName"
+    var command = "ktlint --log-level=$logLevel --reporter=json,output=$outputFileName"
     //setting editorConfig file path
     if (configFilePath != "/")
         command = "$command --editorconfig=$configFilePath"

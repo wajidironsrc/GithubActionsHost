@@ -46,12 +46,5 @@ runs:
         curl -sSLO https://github.com/pinterest/ktlint/releases/download/${{inputs.ktlint_version}}/ktlint && chmod a+x ktlint && sudo mv ktlint /usr/local/bin/
       shell: bash
 
-    # - name: run ktlint scan
-    #   run: |
-    #     ktlint --log-level=${{inputs.log_level}} --reporter=json,output=ktlint-report.json
-    #   continue-on-error: true
-    #   shell: bash
-
     - run: kotlin ${GITHUB_ACTION_PATH}/src/github-pr-reviews.main.kts ${{ inputs.event_file_path }} ${{ inputs.github_token }} ${{ inputs.log_level }} ${{ inputs.experimental }} ${{ inputs.configFilePath }}
-      continue-on-error: true
       shell: bash
