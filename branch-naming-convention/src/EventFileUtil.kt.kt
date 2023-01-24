@@ -1,6 +1,6 @@
 import java.io.File
 
-class `EventFileUtil.kt`(filePath: String) {
+class EventFileUtil.kt(filePath: String) {
 
     private lateinit var githubEvent: GithubEvent
 
