@@ -1,0 +1,38 @@
+name: 'Branch Conventions Validation'
+description: 'Check branch and commit message convention as per provided patterns'
+
+inputs:
+  event_file_path:
+    description: 'Event file path contains info about this PR'
+    required: true
+
+  commit_message_pattern:
+    description: 'Provide a commit message validity pattern, by default check will be ignored'
+    required: false
+
+  branch_name_pattern:
+    description: 'Branch name pattern is required'
+    required: true
+
+  branch_compatibility:
+    description: "Provide, branch compatibility for merge as: 'origin_regex_pattern->destination_regex_pattern' provide multiple of these if necessary"
+    required: false
+
+  validate_tickets_in_commit:
+    description: "ticket from commit messages will be extracted as per input  of 'ticket_from_commit_message_pattern' and uniqueness will verified"
+    required: false
+
+  ticket_from_commit_message_pattern:
+    description: 'provide a pattern/regex to extract ticket number from commit message'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Starting Convention Checks
+      run: echo 'Starting Convention Checks....'
+      shell: bash
+
+    - name: Init Scripts with inputs
+      run: kotlin ${GITHUB_ACTION_PATH}/src/validate-conventions.main.kts ${{ inputs.event_file_path }} ${{ inputs.commit_message_pattern }} ${{ inputs.branch_name_pattern }} ${{ inputs.branch_compatibility }} ${{ inputs.validate_tickets_in_commit }} ${{ inputs.ticket_from_commit_message_pattern }}
+      shell: bash
