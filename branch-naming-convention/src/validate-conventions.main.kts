@@ -30,12 +30,13 @@ val commitMessages: List<String> = if(githubEvent.pull_request.commits > 1) {
         it.trim()
     }
 } else {
-    listOf<String>(commitMessage)
+    val msg: String = commitMessage.replace(githubEvent.after)
+    listOf<String>(msg.trim())
 }
 
 //STEP - 1
 val commitMsgValidityResult = checkForCommitMessageValidity(
-    commitMessage,
+    commitMessages,
     commitMsgPattern
 )
 if (commitMsgValidityResult > 0 && failOnError)

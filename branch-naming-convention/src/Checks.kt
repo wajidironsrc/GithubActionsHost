@@ -5,7 +5,7 @@ import kotlin.system.exitProcess
  * check validity of commit message
  */
 fun checkForCommitMessageValidity(
-    commitMessage: String,
+    commitMessage: List<String>,
     commitMessagePattern: String
 ): Int {
     val matches = if(commitMessagePattern == "nan") {
@@ -14,7 +14,10 @@ fun checkForCommitMessageValidity(
     } else {
         println("Checking commit message: $commitMessage for validity pattern: $commitMessagePattern")
         val regex = commitMessagePattern.toRegex()
-        val matches = regex.matches(commitMessage)
+        var matches = true
+        commitMessage.forEach {
+            matches = regex.matches(it)
+        }
         println("commit message validity is successful: $matches")
         matches
     }
