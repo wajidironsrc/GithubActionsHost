@@ -30,8 +30,12 @@ val commitMessages: List<String> = if(githubEvent.pull_request.commits > 1) {
         it.trim()
     }
 } else {
+    println("full commit msg: $commitMessage")
     val msg: String = commitMessage.replace(githubEvent.after)
-    listOf<String>(msg.trim())
+    println("after replacing: $msg")
+    val afterTrim = msg.trim()
+    println("after trim: $afterTrim")
+    listOf<String>(afterTrim)
 }
 
 //STEP - 1
