@@ -15,7 +15,8 @@ data class GithubPullRequest(
     val number: Int,
     val user: GithubUser,
     val head: GithubPullRequestHead,
-    val base: GithubPullRequestBase
+    val base: GithubPullRequestBase,
+    val commits: Int
 )
 data class GithubEvent(
     val pull_request: GithubPullRequest,

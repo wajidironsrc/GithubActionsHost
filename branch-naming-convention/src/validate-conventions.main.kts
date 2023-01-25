@@ -25,7 +25,7 @@ println("Commit Messages: $commitMessage")
 val eventFileUtil = EventFileUtil(eventFilePath)
 val githubEvent = eventFileUtil.getGithubEvent()
 
-val commitMessages: List<String> = if(githubEvent.pull_request.number > 1) {
+val commitMessages: List<String> = if(githubEvent.pull_request.commits > 1) {
     commitMessage.split(githubEvent.after).map {
         it.trim()
     }
