@@ -1,3 +1,4 @@
+@file:Repository("https://repo.maven.apache.org/maven2/")
 @file:DependsOn("com.google.code.gson:gson:2.10")
 
 @file:Import("EventFileUtil.kt")
