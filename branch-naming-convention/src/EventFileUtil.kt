@@ -1,6 +1,7 @@
 import java.io.File
+import com.google.gson.Gson
 
-class EventFileUtil.kt(filePath: String) {
+class EventFileUtil(filePath: String) {
 
     private lateinit var githubEvent: GithubEvent
 
