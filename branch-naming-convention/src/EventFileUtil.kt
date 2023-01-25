@@ -15,6 +15,7 @@ class EventFileUtil(filePath: String) {
         println(json)
     }
 
+
     fun getGithubEvent() : GithubEvent {
         return githubEvent
     }
