@@ -15,11 +15,11 @@ inputs:
     required: true
 
   branch_compatibility:
-    description: "Provide, branch compatibility for merge as: 'origin_regex_pattern->destination_regex_pattern' provide multiple of these if necessary"
+    description: 'Provide, branch compatibility for merge as: origin_regex_pattern->destination_regex_pattern provide multiple of these if necessary'
     required: false
 
   validate_tickets_in_commit:
-    description: "ticket from commit messages will be extracted as per input  of 'ticket_from_commit_message_pattern' and uniqueness will verified"
+    description: 'ticket from commit messages will be extracted as per input  of ticket_from_commit_message_pattern and uniqueness will verified'
     required: false
 
   ticket_from_commit_message_pattern:
