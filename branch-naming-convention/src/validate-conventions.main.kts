@@ -2,6 +2,7 @@
 @file:DependsOn("com.google.code.gson:gson:2.10")
 
 @file:Import("EventFileUtil.kt")
+@file:Import("DataModels.kt")
 
 import kotlin.system.exitProcess
 
