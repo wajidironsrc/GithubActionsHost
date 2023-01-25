@@ -1,3 +1,6 @@
+import java.util.regex.Pattern
+import kotlin.system.exitProcess
+
 /**
  * check validity of commit message
  */
@@ -34,17 +37,23 @@ fun checkForBranchNameValidity(branchName: String, branchNamePattern: String) : 
 }
 
 
-fun checkForTicketFromCommitMessagePattern(commitMessage: String, ticketNumberFromCommitMessagePattern: String) : Int {
-//    val matches = if(ticketNumberFromCommitMessagePattern == "nan") {
-//        println("Skipping ticket number from commit message validity check....")
-//        true
-//    } else {
-//        println("Checking ticket number from commit message: $commitMessage for validity pattern: $ticketNumberFromCommitMessagePattern")
-//        val regex = ticketNumberFromCommitMessagePattern.toRegex()
-//        val matches = regex.matches(commitMessage)
-//        println("ticket number from commit message is: $matches")
-//        matches
-//    }
-//    return if (matches) 0 else 1
-    return 0
+fun checkForTicketFromCommitMessagePattern(commitMessages: List<String>, ticketNumberFromCommitMessagePattern: String) : Int {
+    println("commitMessage: ${commitMessages.joinToString { "$it, " }} , count: ${commitMessages.count()}" )
+
+    val ticketsList = ArrayList<String>()
+    val regex = ticketNumberFromCommitMessagePattern.toRegex()
+    commitMessages.forEach {
+        val matchResult = regex.find(it)
+        if(matchResult != null) {
+            ticketsList.add(matchResult.value)
+        }
+    }
+
+    return if(ticketsList.distinct().count() == ticketsList.size && ticketsList.distinct().count() == commitMessages.size){
+        println("Success! Ticket numbers are unique in commit messages")
+        0
+    } else {
+        println("Error! Tickets numbers are not unique in commit messages")
+        1
+    }
 }

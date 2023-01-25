@@ -39,6 +39,6 @@ runs:
 
     - name: Init Scripts with inputs
       run: |
-        commitMessage="$(git log --format=%B -n ${{github.event.pull_request.commits}} ${{github.event.after}} --no-merges )"
+        commitMessage="$(git log --format=%B%S -n ${{github.event.pull_request.commits}} ${{github.event.after}} --no-merges )"
         kotlin ${GITHUB_ACTION_PATH}/src/validate-conventions.main.kts ${{ inputs.event_file_path }} ${{ inputs.commit_message_pattern }} ${{ inputs.branch_name_pattern }} ${{ inputs.branch_compatibility }} ${{ inputs.validate_tickets_in_commit }} ${{ inputs.ticket_from_commit_message_pattern }} "$commitMessage"
       shell: bash

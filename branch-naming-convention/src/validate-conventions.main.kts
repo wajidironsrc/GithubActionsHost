@@ -4,7 +4,9 @@
 @file:Import("DataModels.kt")
 @file:Import("Checks.kt")
 
+import javax.print.DocFlavor.STRING
 import kotlin.system.exitProcess
+import kotlin.collections.*
 
 //inputs
 val eventFilePath = args[0]
@@ -13,16 +15,23 @@ val branchNamePattern = args[2]
 val branchCompatibility = args[3]
 val validateTicketsInCommit = args[4]
 val ticketFromCommitMessagePattern = args[5]
-val commitMessage = args[6]
+val commitMessage: String = args[6]
 //global vars
 val failOnError = false
-
 
 println("starting PR validation checks....")
 println("Commit Messages: $commitMessage")
 
 val eventFileUtil = EventFileUtil(eventFilePath)
 val githubEvent = eventFileUtil.getGithubEvent()
+
+val commitMessages: List<String> = if(githubEvent.pull_request.number > 1) {
+    commitMessage.split(githubEvent.after).map {
+        it.trim()
+    }
+} else {
+    listOf<String>(commitMessage)
+}
 
 //STEP - 1
 val commitMsgValidityResult = checkForCommitMessageValidity(
@@ -47,7 +56,7 @@ if (branchNameValidityResult > 0 && failOnError)
 
 //STEP - 4
 val ticketFromCommitMessageValidityResult = checkForTicketFromCommitMessagePattern(
-    commitMessage = commitMessage,
+    commitMessages = commitMessages,
     ticketNumberFromCommitMessagePattern = ticketFromCommitMessagePattern
 )
 if (ticketFromCommitMessageValidityResult > 0 && failOnError)

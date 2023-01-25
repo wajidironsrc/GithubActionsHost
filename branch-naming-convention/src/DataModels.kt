@@ -19,5 +19,6 @@ data class GithubPullRequest(
 )
 data class GithubEvent(
     val pull_request: GithubPullRequest,
-    val repository: GithubRepository
+    val repository: GithubRepository,
+    val after: String
 )
