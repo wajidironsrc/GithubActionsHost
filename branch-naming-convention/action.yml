@@ -8,6 +8,7 @@ inputs:
 
   commit_message_pattern:
     description: 'Provide a commit message validity pattern, by default check will be ignored'
+    default: 'nan'
     required: false
 
   branch_name_pattern:
@@ -21,10 +22,12 @@ inputs:
 
   validate_tickets_in_commit:
     description: 'ticket from commit messages will be extracted as per input  of ticket_from_commit_message_pattern and uniqueness will verified'
+    default: false
     required: false
 
   ticket_from_commit_message_pattern:
     description: 'provide a pattern/regex to extract ticket number from commit message'
+    default: 'nan'
     required: false
 
 runs:
@@ -35,5 +38,7 @@ runs:
       shell: bash
 
     - name: Init Scripts with inputs
-      run: kotlin ${GITHUB_ACTION_PATH}/src/validate-conventions.main.kts ${{ inputs.event_file_path }} ${{ inputs.commit_message_pattern }} ${{ inputs.branch_name_pattern }} ${{ inputs.branch_compatibility }} ${{ inputs.validate_tickets_in_commit }} ${{ inputs.ticket_from_commit_message_pattern }}
+      run: |
+        commitMessage="$(git log --format=%B -n ${{github.event.pull_request.commits}} ${{github.event.after}} --no-merges )"
+        kotlin ${GITHUB_ACTION_PATH}/src/validate-conventions.main.kts ${{ inputs.event_file_path }} ${{ inputs.commit_message_pattern }} ${{ inputs.branch_name_pattern }} ${{ inputs.branch_compatibility }} ${{ inputs.validate_tickets_in_commit }} ${{ inputs.ticket_from_commit_message_pattern }} "$commitMessage"
       shell: bash

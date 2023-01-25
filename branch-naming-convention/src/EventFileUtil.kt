@@ -20,4 +20,8 @@ class EventFileUtil(filePath: String) {
         return githubEvent
     }
 
+    fun getDestinationBranchName() = githubEvent.pull_request.base.ref
+
+    fun getOriginBranchName() = githubEvent.pull_request.head.ref
+
 }
