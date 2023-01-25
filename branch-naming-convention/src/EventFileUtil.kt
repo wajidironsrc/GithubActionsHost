@@ -7,6 +7,7 @@ class EventFileUtil(filePath: String) {
 
     private lateinit var githubEvent: GithubEvent
 
+
     init {
         val json = File(filePath).readText()
         githubEvent = Gson().fromJson(json, GithubEvent::class.java)
