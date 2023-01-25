@@ -1,6 +1,5 @@
 @file:Repository("https://repo.maven.apache.org/maven2/")
 @file:DependsOn("com.google.code.gson:gson:2.10")
-
 @file:Import("EventFileUtil.kt")
 @file:Import("DataModels.kt")
 
@@ -17,6 +16,5 @@ println("Hey Its up and running")
 
 val eventFileUtil = EventFileUtil(eventFilePath)
 val githubEvent = eventFileUtil.getGithubEvent()
-println(Gson().toJson(githubEvent))
 
 exitProcess(0)
