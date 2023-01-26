@@ -1,6 +1,3 @@
-import java.util.regex.Pattern
-import kotlin.system.exitProcess
-
 /**
  * check validity of commit message
  */
@@ -8,7 +5,7 @@ fun checkForCommitMessageValidity(
     commitMessage: List<String>,
     commitMessagePattern: String
 ): Int {
-    val matches = if(commitMessagePattern == "nan") {
+    val matches = if (commitMessagePattern == "nan") {
         println("Skipping commit message validity....")
         true
     } else {
@@ -16,7 +13,7 @@ fun checkForCommitMessageValidity(
         val regex = commitMessagePattern.toRegex()
         var matches = true
         commitMessage.forEach {
-            if(!regex.matches(it)) {
+            if (!regex.matches(it)) {
                 matches = false
                 println("Commit Message validity Failed for message: $it")
             }
@@ -28,8 +25,8 @@ fun checkForCommitMessageValidity(
 }
 
 
-fun checkForBranchNameValidity(branchName: String, branchNamePattern: String) : Int {
-    val matches = if(branchNamePattern == "nan") {
+fun checkForBranchNameValidity(branchName: String, branchNamePattern: String): Int {
+    val matches = if (branchNamePattern == "nan") {
         println("Skipping branch name validity check....")
         true
     } else {
@@ -43,23 +40,33 @@ fun checkForBranchNameValidity(branchName: String, branchNamePattern: String) : 
 }
 
 
-fun checkForTicketFromCommitMessagePattern(commitMessages: List<String>, ticketNumberFromCommitMessagePattern: String) : Int {
-    println("commitMessage: ${commitMessages.joinToString { "$it, " }} , count: ${commitMessages.count()}" )
+fun checkForTicketFromCommitMessagePattern(
+    commitMessages: List<String>,
+    ticketNumberFromCommitMessagePattern: String
+): Int {
+    println("commitMessage: ${commitMessages.joinToString { "$it, " }} , count: ${commitMessages.count()}")
 
     val ticketsList = ArrayList<String>()
     val regex = ticketNumberFromCommitMessagePattern.toRegex()
     commitMessages.forEach {
         val matchResult = regex.find(it)
-        if(matchResult != null) {
+        if (matchResult != null) {
             ticketsList.add(matchResult.value)
         }
     }
 
-    return if(ticketsList.distinct().count() == ticketsList.size && ticketsList.distinct().count() == commitMessages.size){
+    return if (ticketsList.distinct().count() == ticketsList.size && ticketsList.distinct()
+            .count() == commitMessages.size
+    ) {
         println("Success! Ticket numbers are unique in commit messages")
         0
     } else {
         println("Error! Tickets numbers are not unique in commit messages")
         1
     }
+}
+
+fun checkForBranchesCompatibility(): Int {
+
+    return 0
 }

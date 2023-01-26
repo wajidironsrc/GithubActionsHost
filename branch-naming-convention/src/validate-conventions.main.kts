@@ -65,5 +65,14 @@ if (ticketFromCommitMessageValidityResult > 0 && failOnError)
     exitProcess(ticketFromCommitMessageValidityResult)
 
 
+//STEP - 5
+println("branch compat check")
+println("data recieved: $branchCompatibility")
+println(branchCompatibility)
+//val branchCompatibilityValidationResult = checkForBranchesCompatibility(
+//    branchCompatibility
+//)
+
+
 //normal ending of the flow
 exitProcess(0)
