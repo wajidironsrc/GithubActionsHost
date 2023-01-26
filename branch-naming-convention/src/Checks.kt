@@ -16,7 +16,10 @@ fun checkForCommitMessageValidity(
         val regex = commitMessagePattern.toRegex()
         var matches = true
         commitMessage.forEach {
-            matches = regex.matches(it)
+            if(!regex.matches(it)) {
+                matches = false
+                println("Commit Message validity Failed for message: $it")
+            }
         }
         println("commit message validity is successful: $matches")
         matches
