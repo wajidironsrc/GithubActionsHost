@@ -17,7 +17,6 @@ inputs:
 
   branch_compatibility:
     description: 'Provide, branch compatibility for merge as: origin_regex_pattern->destination_regex_pattern provide multiple of these if necessary'
-    default: 'nan'
     required: false
 
   validate_tickets_in_commit:
