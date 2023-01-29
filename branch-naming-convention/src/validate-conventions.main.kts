@@ -30,7 +30,7 @@ val ticketNumberInCommitMsgPattern = args[7]
 val commitMessage: String = args[8]
 val failOnErrorStr = args[9]
 
-val fialOnError = (failOnErrorStr == 'true')
+val fialOnError = (failOnErrorStr == "true")
 
 println("starting PR validation checks....")
 println("Commit Messages: $commitMessage")
