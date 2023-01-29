@@ -40,7 +40,7 @@ fun isCommitMessageValid(commitMsgPattern: String, commitMsg: String?): Boolean 
 
 
 fun checkForTicketFromCommitMessageAndBranchPattern(
-    commitMessage: String,
+    commitMessage: String?,
     branchName: String,
     ticketNumberFromCommitMessagePattern: String,
     ticketNumberFromBranchNamePattern: String
