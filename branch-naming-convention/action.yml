@@ -1,33 +1,59 @@
 name: 'Branch Conventions Validation'
 description: 'Check branch and commit message convention as per provided patterns'
 
+#  “feature_branch” -> regex.
+#  allowed_commits_count_on_non_feature_branch -> “1" (number)
+#  commit_message -> regex
+#  current_branch_name -> regex
+#  should_compare_ticket_in_branch_name_to_commit_message -> boolean
+#  5:13
+#  feature_branch -> “feature/*“.
+#  allowed_commits_count_on_non_feature_branch -> 1
+#  commit_message_regex -> “[AUGL-^^] ^^”
+#  branch_name_regex -> “^^.AUGL-^^.^^”
+#  should_compare_ticket_in_branch_name_to_commit_message -> true
+
 inputs:
   event_file_path:
     description: 'Event file path contains info about this PR'
     required: true
 
-  commit_message_pattern:
-    description: 'Provide a commit message validity pattern, by default check will be ignored'
-    default: 'nan'
-    required: false
-
-  branch_name_pattern:
-    description: 'Branch name pattern is required'
+  feature_branch_pattern:
+    description: 'Feature Branch name pattern is required'
     required: true
 
-  branch_compatibility:
-    description: 'Provide, branch compatibility for merge as: origin_regex_pattern->destination_regex_pattern provide multiple of these if necessary'
+  branch_name_pattern:
+    description: 'non feature branch pattern'
+    required: true
+
+  allowed_commits_count_on_non_feature_branch:
+    description: 'Number of commits allowed on non feature branch'
+    default: '1'
     required: false
 
-  validate_tickets_in_commit:
+  commit_message_pattern:
+    description: 'Provide a commit message validity pattern, by default check will be ignored'
+    default: 'NA'
+    required: false
+
+  should_compare_ticket_in_branch_name_to_commit_message:
     description: 'ticket from commit messages will be extracted as per input  of ticket_from_commit_message_pattern and uniqueness will verified'
     default: false
     required: false
 
+  ticket_number_from_branch_pattern:
+    description: "provide a pattern to extract ticket number from branch name"
+    default: "NA"
+    required: false
+
   ticket_from_commit_message_pattern:
     description: 'provide a pattern/regex to extract ticket number from commit message'
-    default: 'nan'
+    default: 'NA'
     required: false
+
+  fail_on_error:
+    description: 'if true, on any error workflow will fail. If false, then one will have to check errors from log'
+    required: true
 
 runs:
   using: 'composite'
@@ -39,5 +65,5 @@ runs:
     - name: Init Scripts with inputs
       run: |
         commitMessage="$(git log --format=%B%S -n ${{github.event.pull_request.commits}} ${{github.event.after}} --no-merges )"
-        kotlin ${GITHUB_ACTION_PATH}/src/validate-conventions.main.kts ${{ inputs.event_file_path }} ${{ inputs.commit_message_pattern }} ${{ inputs.branch_name_pattern }} ${{ inputs.branch_compatibility }} ${{ inputs.validate_tickets_in_commit }} ${{ inputs.ticket_from_commit_message_pattern }} "$commitMessage"
+        kotlin ${GITHUB_ACTION_PATH}/src/validate-conventions.main.kts ${{ inputs.event_file_path }} ${{ inputs.feature_branch_pattern }} ${{ inputs.branch_name_pattern }} ${{ inputs.allowed_commits_count_on_non_feature_branch }} ${{ inputs.commit_message_pattern }} ${{ inputs.should_compare_ticket_in_branch_name_to_commit_message }} ${{ inputs.ticket_number_from_branch_pattern }} ${{ inputs.ticket_from_commit_message_pattern }} "$commitMessage" ${{ inputs.fail_on_error }}
       shell: bash

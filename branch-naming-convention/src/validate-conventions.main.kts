@@ -4,27 +4,39 @@
 @file:Import("DataModels.kt")
 @file:Import("Checks.kt")
 
-import javax.print.DocFlavor.STRING
 import kotlin.system.exitProcess
 import kotlin.collections.*
 
+//event_file_path:
+//feature_branch_pattern:
+//branch_name_pattern:
+//allowed_commits_count_on_non_feature_branch:
+//commit_message_pattern:
+//should_compare_ticket_in_branch_name_to_commit_message:
+//ticket_number_from_branch_pattern:
+//ticket_from_commit_message_pattern:
+//commitMessage
+//fail_on_error:
+
 //inputs
 val eventFilePath = args[0]
-val commitMsgPattern = args[1]
-val branchNamePattern = args[2]
-val branchCompatibility = args[3]
-val validateTicketsInCommit = args[4]
-val ticketFromCommitMessagePattern = args[5]
-val commitMessage: String = args[6]
-//global vars
-val failOnError = false
+val featureBranchPattern = args[1]
+val nonFeaturebranchNamePattern = args[2]
+val allowedCommitCountOnNonFeatureBranch = args[3]
+val commitMsgPattern = args[4]
+val shouldComparetiketsInBranchNameToCommitMsg = args[5]
+val ticketNumberFromBranchPattern = args[6]
+val ticketNumberInCommitMsgPattern = args[7]
+val commitMessage: String = args[8]
+val failOnError = args[9] ?: true
 
 println("starting PR validation checks....")
 println("Commit Messages: $commitMessage")
 
 val eventFileUtil = EventFileUtil(eventFilePath)
 val githubEvent = eventFileUtil.getGithubEvent()
-
+val currentBranchName = githubEvent.pull_request.head.ref
+val numberOfCommits = githubEvent.pull_request.commits
 val commitMessages: List<String> = if(githubEvent.pull_request.commits > 1) {
     commitMessage.split(githubEvent.after).map {
         it.trim()
@@ -36,43 +48,125 @@ val commitMessages: List<String> = if(githubEvent.pull_request.commits > 1) {
 }
 
 //STEP - 1
-val commitMsgValidityResult = checkForCommitMessageValidity(
-    commitMessages,
-    commitMsgPattern
+//verify if current branch is a feature branch:
+val isFeatureBranch = isFeatureBranch(
+    featureBranchPattern = featureBranchPattern,
+    currentBranchName
 )
-if (commitMsgValidityResult > 0 && failOnError)
-    exitProcess(commitMsgValidityResult)
-
-//STEP - 2
-val branchNameValidityResult = checkForBranchNameValidity(
-    branchName = githubEvent.pull_request.head.ref,
-    branchNamePattern = branchNamePattern
-)
-if (branchNameValidityResult > 0 && failOnError)
-    exitProcess(branchNameValidityResult)
+if(isFeatureBranch)
+    println("Curren branch is a feature branch...")
+else
+    println("Current branch is not a feature branch...")
 
 
-//STEP - 3
-// branch compatibility checks
+
+val isBranchNameValid = isFeatureBranch
+if(!isFeatureBranch) {
+    //STEP - 2
+    //if current branch is not a feature branch verify its pattern
+    isBranchNameValid = isNonFeatureCurrentBranchNameValid(
+        nonFeatureBranchPattern = nonFeaturebranchNamePattern,
+        currentBranchName
+    )
+    if(isBranchNameValid) {
+        println("Current Branch name is valid as a non feature branch")
+    } else {
+        println("Current branch name is not valid as a non feature branch.")
+        if(failOnError) {
+            println("Branch name is not valid")
+            System.exit(1)
+        }
+    }
 
 
-//STEP - 4
-val ticketFromCommitMessageValidityResult = checkForTicketFromCommitMessagePattern(
-    commitMessages = commitMessages,
-    ticketNumberFromCommitMessagePattern = ticketFromCommitMessagePattern
-)
-if (ticketFromCommitMessageValidityResult > 0 && failOnError)
-    exitProcess(ticketFromCommitMessageValidityResult)
+    //STEP - 3
+    //if non feature branch, then check for commit count
+    if(numberOfCommits > allowedCommitCountOnNonFeatureBranch) {
+        println("number of commits in current branch are: $numberOfCommits which more than allowed commits: $allowedCommitCountOnNonFeatureBranch")
+        if(failOnError) {
+            System.exit(1)
+        }
+    } else {
+        println("commit count check passed....")
+        println("commit count is as per policy specified.")
+    }
 
 
-//STEP - 5
-println("branch compat check")
-println("data recieved: $branchCompatibility")
-println(branchCompatibility)
-//val branchCompatibilityValidationResult = checkForBranchesCompatibility(
-//    branchCompatibility
+    //STEP - 4
+    //check for commit message as per pattern
+    val isCommitMessageValid = isCommitMessageValid(
+        commitMsgPattern = commitMsgPattern,
+        commitMsg = commitMessages.firstOrNull()
+    )
+    if(isCommitMessageValid)
+        println("commit message is valid as per pattern")
+    else {
+        println("commit message verification failed")
+        if(failOnError)
+            System.exit(1)
+    }
+
+    //STEP - 5
+    //check if ticket number from commit and branch name is same
+    if(shouldComparetiketsInBranchNameToCommitMsg) {
+        val areTicketNumberAlikeInCommitAndBranchName = checkForTicketFromCommitMessageAndBranchPattern(
+            commitMessages.firstOrNull(),
+            currentBranchName,
+            ticketNumberFromBranchPattern,
+            ticketNumberFromBranchPattern
+        )
+        if(areTicketNumberAlikeInCommitAndBranchName) {
+            println("ticket number from branch and commit message are alike")
+        } else {
+            println("ticket number from branch and commit message are not alike")
+            if(failOnError)
+                System.exit(1)
+        }
+    }
+}
+
+System.exit(0) //0 means successful workflow run
+
+
+//
+////STEP - 1
+//val commitMsgValidityResult = checkForCommitMessageValidity(
+//    commitMessages,
+//    commitMsgPattern
 //)
-
-
-//normal ending of the flow
-exitProcess(0)
+//if (commitMsgValidityResult > 0 && failOnError)
+//    exitProcess(commitMsgValidityResult)
+//
+////STEP - 2
+//val branchNameValidityResult = checkForBranchNameValidity(
+//    branchName = githubEvent.pull_request.head.ref,
+//    branchNamePattern = branchNamePattern
+//)
+//if (branchNameValidityResult > 0 && failOnError)
+//    exitProcess(branchNameValidityResult)
+//
+//
+////STEP - 3
+//// branch compatibility checks
+//
+//
+////STEP - 4
+//val ticketFromCommitMessageValidityResult = checkForTicketFromCommitMessagePattern(
+//    commitMessages = commitMessages,
+//    ticketNumberFromCommitMessagePattern = ticketFromCommitMessagePattern
+//)
+//if (ticketFromCommitMessageValidityResult > 0 && failOnError)
+//    exitProcess(ticketFromCommitMessageValidityResult)
+//
+//
+////STEP - 5
+//println("branch compat check")
+//println("data recieved: $branchCompatibility")
+//println(branchCompatibility)
+////val branchCompatibilityValidationResult = checkForBranchesCompatibility(
+////    branchCompatibility
+////)
+//
+//
+////normal ending of the flow
+//exitProcess(0)
