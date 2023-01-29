@@ -89,7 +89,7 @@ if(!isFeatureBranch) {
     //check for commit message as per pattern
     val isCommitMessageValid = isCommitMessageValid(
         commitMsgPattern = commitMsgPattern,
-        commitMsg = commitMessages?.firstOrNull()
+        commitMsg = commitMessages.firstOrNull()
     )
     if(isCommitMessageValid)
         println("commit message is valid as per pattern")
@@ -103,7 +103,7 @@ if(!isFeatureBranch) {
     //check if ticket number from commit and branch name is same
     if(shouldComparetiketsInBranchNameToCommitMsg) {
         val areTicketNumberAlikeInCommitAndBranchName = checkForTicketFromCommitMessageAndBranchPattern(
-            commitMessages?.firstOrNull(),
+            commitMessages.firstOrNull(),
             currentBranchName,
             ticketNumberInCommitMsgPattern,
             ticketNumberFromBranchPattern
