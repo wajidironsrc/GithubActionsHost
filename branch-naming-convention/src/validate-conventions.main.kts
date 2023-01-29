@@ -28,7 +28,7 @@ val shouldComparetiketsInBranchNameToCommitMsg = args[5]
 val ticketNumberFromBranchPattern = args[6]
 val ticketNumberInCommitMsgPattern = args[7]
 val commitMessage: String = args[8]
-val failOnError = args[9] ?: true
+val failOnError: Boolean = args[9] ?: true
 
 println("starting PR validation checks....")
 println("Commit Messages: $commitMessage")
@@ -60,7 +60,7 @@ else
 
 
 
-val isBranchNameValid = isFeatureBranch
+var isBranchNameValid = isFeatureBranch
 if(!isFeatureBranch) {
     //STEP - 2
     //if current branch is not a feature branch verify its pattern
