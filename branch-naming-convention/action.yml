@@ -38,7 +38,7 @@ inputs:
 
   should_compare_ticket_in_branch_name_to_commit_message:
     description: 'ticket from commit messages will be extracted as per input  of ticket_from_commit_message_pattern and uniqueness will verified'
-    default: false
+    default: 'false'
     required: false
 
   ticket_number_from_branch_pattern:

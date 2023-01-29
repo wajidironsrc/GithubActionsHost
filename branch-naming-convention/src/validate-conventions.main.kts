@@ -7,30 +7,21 @@
 import kotlin.system.exitProcess
 import kotlin.collections.*
 
-//event_file_path:
-//feature_branch_pattern:
-//branch_name_pattern:
-//allowed_commits_count_on_non_feature_branch:
-//commit_message_pattern:
-//should_compare_ticket_in_branch_name_to_commit_message:
-//ticket_number_from_branch_pattern:
-//ticket_from_commit_message_pattern:
-//commitMessage
-//fail_on_error:
-
 //inputs
 val eventFilePath = args[0]
 val featureBranchPattern = args[1]
 val nonFeaturebranchNamePattern = args[2]
-val allowedCommitCountOnNonFeatureBranch = args[3]
+val allowedCommitCountOnNonFeatureBranchStr = args[3]
 val commitMsgPattern = args[4]
-val shouldComparetiketsInBranchNameToCommitMsg = args[5]
+val shouldComparetiketsInBranchNameToCommitMsgStr = args[5]
 val ticketNumberFromBranchPattern = args[6]
 val ticketNumberInCommitMsgPattern = args[7]
 val commitMessage: String = args[8]
 val failOnErrorStr = args[9]
 
 val failOnError = (failOnErrorStr == "true")
+val allowedCommitCountOnNonFeatureBranch = allowedCommitCountOnNonFeatureBranchStr.toInt()
+val shouldComparetiketsInBranchNameToCommitMsg = shouldComparetiketsInBranchNameToCommitMsgStr.toBoolean()
 
 println("starting PR validation checks....")
 println("Commit Messages: $commitMessage")
@@ -114,7 +105,7 @@ if(!isFeatureBranch) {
         val areTicketNumberAlikeInCommitAndBranchName = checkForTicketFromCommitMessageAndBranchPattern(
             commitMessages?.firstOrNull(),
             currentBranchName,
-            ticketNumberFromBranchPattern,
+            ticketNumberInCommitMsgPattern,
             ticketNumberFromBranchPattern
         )
         if(areTicketNumberAlikeInCommitAndBranchName) {
