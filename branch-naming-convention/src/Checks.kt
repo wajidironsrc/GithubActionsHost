@@ -47,6 +47,10 @@ fun checkForTicketFromCommitMessageAndBranchPattern(
 ): Boolean {
     println("commitMessage: $commitMessage , ticketNumberPatternFromCommit: $ticketNumberFromCommitMessagePattern, ticketNumberFromBranch: $ticketNumberFromBranchNamePattern")
 
+    if(commitMessage.isNullOrEmpty()) {
+        println("commit message is null or empty, hence invalid")
+        return false
+    }
 
     val ticketNoFromCommitPattern = ticketNumberFromCommitMessagePattern.toRegex()
     val ticketNoFromBranchPattern = ticketNumberFromBranchNamePattern.toRegex()
