@@ -41,7 +41,7 @@ val commitMessages: List<String> = if(githubEvent.pull_request.commits > 1) {
 }
 println("commit messages")
 commitMessages.forEach {
-    println("$it")
+    println("$it/////")
 }
 
 //STEP - 1
