@@ -67,7 +67,7 @@ if(!isFeatureBranch) {
         println("Current branch name is not valid as a non feature branch.")
         if(failOnError) {
             println("Branch name is not valid")
-            System.exit(1)
+            exitProcess(1)
         }
     }
 
@@ -77,7 +77,7 @@ if(!isFeatureBranch) {
     if(numberOfCommits > allowedCommitCountOnNonFeatureBranch) {
         println("number of commits in current branch are: $numberOfCommits which more than allowed commits: $allowedCommitCountOnNonFeatureBranch")
         if(failOnError) {
-            System.exit(1)
+            exitProcess(1)
         }
     } else {
         println("commit count check passed....")
@@ -96,7 +96,7 @@ if(!isFeatureBranch) {
     else {
         println("commit message verification failed")
         if(failOnError)
-            System.exit(1)
+            exitProcess(1)
     }
 
     //STEP - 5
@@ -113,12 +113,12 @@ if(!isFeatureBranch) {
         } else {
             println("ticket number from branch and commit message are not alike")
             if(failOnError)
-                System.exit(1)
+                exitProcess(1)
         }
     }
 }
 
-System.exit(0) //0 means successful workflow run
+exitProcess(0) //0 means successful workflow run
 
 
 //
