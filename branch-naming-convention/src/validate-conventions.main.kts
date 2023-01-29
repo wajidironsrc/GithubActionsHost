@@ -31,7 +31,7 @@ val githubEvent = eventFileUtil.getGithubEvent()
 val currentBranchName = githubEvent.pull_request.head.ref
 val numberOfCommits = githubEvent.pull_request.commits
 val commitMessages: List<String> = if(githubEvent.pull_request.commits > 1) {
-    commitMessage.split(githubEvent.after).map {
+    commitMessage.split("\n").map {
         it.trim()
     }
 } else {
