@@ -28,7 +28,7 @@ val shouldComparetiketsInBranchNameToCommitMsg = args[5]
 val ticketNumberFromBranchPattern = args[6]
 val ticketNumberInCommitMsgPattern = args[7]
 val commitMessage: String = args[8]
-val failOnError: Boolean = args[9] ?: true
+val failOnError = args[9]
 
 println("starting PR validation checks....")
 println("Commit Messages: $commitMessage")
@@ -96,7 +96,7 @@ if(!isFeatureBranch) {
     //check for commit message as per pattern
     val isCommitMessageValid = isCommitMessageValid(
         commitMsgPattern = commitMsgPattern,
-        commitMsg = commitMessages.firstOrNull()
+        commitMsg = commitMessages?.firstOrNull()
     )
     if(isCommitMessageValid)
         println("commit message is valid as per pattern")
@@ -110,7 +110,7 @@ if(!isFeatureBranch) {
     //check if ticket number from commit and branch name is same
     if(shouldComparetiketsInBranchNameToCommitMsg) {
         val areTicketNumberAlikeInCommitAndBranchName = checkForTicketFromCommitMessageAndBranchPattern(
-            commitMessages.firstOrNull(),
+            commitMessages?.firstOrNull(),
             currentBranchName,
             ticketNumberFromBranchPattern,
             ticketNumberFromBranchPattern
