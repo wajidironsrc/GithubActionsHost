@@ -28,7 +28,9 @@ val shouldComparetiketsInBranchNameToCommitMsg = args[5]
 val ticketNumberFromBranchPattern = args[6]
 val ticketNumberInCommitMsgPattern = args[7]
 val commitMessage: String = args[8]
-val failOnError = args[9]
+val failOnErrorStr = args[9]
+
+val fialOnError = (failOnErrorStr == 'true')
 
 println("starting PR validation checks....")
 println("Commit Messages: $commitMessage")
