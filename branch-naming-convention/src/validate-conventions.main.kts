@@ -39,6 +39,10 @@ val commitMessages: List<String> = if(githubEvent.pull_request.commits > 1) {
     val afterTrim = msg.trim()
     listOf<String>(afterTrim)
 }
+println("commit messages")
+commitMessages.forEach {
+    println("$it")
+}
 
 //STEP - 1
 //verify if current branch is a feature branch:
