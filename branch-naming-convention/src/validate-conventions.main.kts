@@ -119,50 +119,19 @@ if(!isFeatureBranch) {
                 exitProcess(1)
         }
     }
+} else {
+    //STEP - 6
+    //check if all commits included in the feature branch are unique from thier ticket numbers
+    val areAllCommitsUnique = checkForTicketFromCommitMessagePattern(
+        commitMessages,
+        ticketNumberInCommitMsgPattern
+    )
+    if(areAllCommitsUnique) {
+        println("All commits messages in the feature branch included are unique.")
+    } else {
+        println("Not all commits messages in the feature branch included are unique.")
+        exitProcess(1) //exit with error
+    }
 }
 
 exitProcess(0) //0 means successful workflow run
-
-
-//
-////STEP - 1
-//val commitMsgValidityResult = checkForCommitMessageValidity(
-//    commitMessages,
-//    commitMsgPattern
-//)
-//if (commitMsgValidityResult > 0 && failOnError)
-//    exitProcess(commitMsgValidityResult)
-//
-////STEP - 2
-//val branchNameValidityResult = checkForBranchNameValidity(
-//    branchName = githubEvent.pull_request.head.ref,
-//    branchNamePattern = branchNamePattern
-//)
-//if (branchNameValidityResult > 0 && failOnError)
-//    exitProcess(branchNameValidityResult)
-//
-//
-////STEP - 3
-//// branch compatibility checks
-//
-//
-////STEP - 4
-//val ticketFromCommitMessageValidityResult = checkForTicketFromCommitMessagePattern(
-//    commitMessages = commitMessages,
-//    ticketNumberFromCommitMessagePattern = ticketFromCommitMessagePattern
-//)
-//if (ticketFromCommitMessageValidityResult > 0 && failOnError)
-//    exitProcess(ticketFromCommitMessageValidityResult)
-//
-//
-////STEP - 5
-//println("branch compat check")
-//println("data recieved: $branchCompatibility")
-//println(branchCompatibility)
-////val branchCompatibilityValidationResult = checkForBranchesCompatibility(
-////    branchCompatibility
-////)
-//
-//
-////normal ending of the flow
-//exitProcess(0)
