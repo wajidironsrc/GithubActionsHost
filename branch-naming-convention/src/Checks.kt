@@ -1,25 +1,13 @@
-fun isFeatureBranch(featureBranchPattern: String, currentBranch: String): Boolean {
-    return if (featureBranchPattern.isEmpty()) {
-        println("Skipping feature branch name validity check....")
-        false
-    } else {
-        println("Checking for feature branch name: $currentBranch for validity pattern: $featureBranchPattern")
-        val regex = featureBranchPattern.toRegex()
-        val matches = regex.matches(currentBranch)
-        println("current branch is a feature branch: $matches")
-        matches
-    }
-}
 
-fun isNonFeatureCurrentBranchNameValid(nonFeatureBranchPattern: String, currentBranch: String): Boolean {
-    return if (nonFeatureBranchPattern.isEmpty()) {
-        println("non feature branch pattern can't be null or empty....")
+fun isRegularCurrentBranchNameValid(regularBranchPattern: String, currentBranch: String): Boolean {
+    return if (regularBranchPattern.isEmpty()) {
+        println("regular branch pattern can't be null or empty....")
         false
     } else {
-        println("Checking for non feature branch name: $currentBranch for validity pattern: $nonFeatureBranchPattern")
-        val regex = nonFeatureBranchPattern.toRegex()
+        println("Checking for regular branch name: $currentBranch for validity pattern: $regularBranchPattern")
+        val regex = regularBranchPattern.toRegex()
         val matches = regex.matches(currentBranch)
-        println("current branch is a valid non feature branch: $matches")
+        println("current branch is a valid regular branch: $matches")
         matches
     }
 }
@@ -75,7 +63,6 @@ fun checkForTicketFromCommitMessageAndBranchPattern(
         false
     }
 }
-
 
 fun checkForTicketFromCommitMessagePattern(
     commitMessages: List<String>,

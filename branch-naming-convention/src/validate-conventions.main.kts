@@ -4,23 +4,28 @@
 @file:Import("DataModels.kt")
 @file:Import("Checks.kt")
 
+import java.lang.System
 import kotlin.system.exitProcess
 import kotlin.collections.*
 
 //inputs
 val eventFilePath = args[0]
-val featureBranchPattern = args[1]
-val nonFeaturebranchNamePattern = args[2]
-val allowedCommitCountOnNonFeatureBranchStr = args[3]
-val commitMsgPattern = args[4]
-val shouldComparetiketsInBranchNameToCommitMsgStr = args[5]
-val ticketNumberFromBranchPattern = args[6]
-val ticketNumberInCommitMsgPattern = args[7]
-val commitMessage: String = args[8]
-val failOnErrorStr = args[9]
+val regularBranchPattern = args[1]
+val allowedCommitCountStr = args[2]
+val commitMsgPattern = args[3]
+val shouldComparetiketsInBranchNameToCommitMsgStr = args[4]
+val ticketNumberFromBranchPattern = args[5]
+val ticketNumberInCommitMsgPattern = args[6]
+val commitMessage: String = args[7]
+val failOnErrorStr = args[8]
 
 val failOnError = (failOnErrorStr == "true")
-val allowedCommitCountOnNonFeatureBranch = allowedCommitCountOnNonFeatureBranchStr.toInt()
+val allowedCommitCount = if(allowedCommitCountStr == "NA") {
+    //incase if count is not specified, then max amount is allowed.
+    Int.MAX_VALUE
+} else {
+    allowedCommitCountStr.toInt()
+}
 val shouldComparetiketsInBranchNameToCommitMsg = shouldComparetiketsInBranchNameToCommitMsgStr.toBoolean()
 
 println("starting PR validation checks....")
@@ -29,6 +34,7 @@ println("Commit Messages: $commitMessage")
 val eventFileUtil = EventFileUtil(eventFilePath)
 val githubEvent = eventFileUtil.getGithubEvent()
 val currentBranchName = githubEvent.pull_request.head.ref
+val destinationBranchName = githubEvent.pull_request.base.ref
 val numberOfCommits = githubEvent.pull_request.commits
 val commitMessages: List<String> = if(githubEvent.pull_request.commits > 1) {
     commitMessage.split("\n").map {
@@ -38,71 +44,47 @@ val commitMessages: List<String> = if(githubEvent.pull_request.commits > 1) {
     val msg: String = commitMessage.trim()
     listOf<String>(msg)
 }
-println("commit messages")
+println("commit messages:")
 commitMessages.forEach {
-    println("$it")
+    println(it)
 }
 
-//STEP - 1
-//verify if current branch is a feature branch:
-val isFeatureBranch = isFeatureBranch(
-    featureBranchPattern = featureBranchPattern,
-    currentBranchName
-)
-if(isFeatureBranch)
-    println("Curren branch is a feature branch...")
-else
-    println("Current branch is not a feature branch...")
+println("Ref: Current/Head Branch: $currentBranchName")
+println("Ref: Destination/Base BranchName: $destinationBranchName")
 
-
-
-var isBranchNameValid = isFeatureBranch
-if(!isFeatureBranch) {
-    //STEP - 2
-    //if current branch is not a feature branch verify its pattern
-    isBranchNameValid = isNonFeatureCurrentBranchNameValid(
-        nonFeatureBranchPattern = nonFeaturebranchNamePattern,
+//regular branch checks
+if(allowedCommitCount == 1) {
+    //current branch is regular branch verify its pattern
+    val isBranchNameValid = isRegularCurrentBranchNameValid(
+        regularBranchPattern = regularBranchPattern,
         currentBranchName
     )
     if(isBranchNameValid) {
-        println("Current Branch name is valid as a non feature branch")
+        println("Current Branch name is valid as a regular branch, branchName: $currentBranchName")
     } else {
-        println("Current branch name is not valid as a non feature branch.")
-        if(failOnError) {
-            println("Branch name is not valid")
-            exitProcess(1)
-        }
+        failRun("Current branch name is not valid as a regular branch, branchName: $currentBranchName")
     }
 
-
-    //STEP - 3
-    //if non feature branch, then check for commit count
-    if(numberOfCommits > allowedCommitCountOnNonFeatureBranch) {
-        println("number of commits in current branch are: $numberOfCommits which more than allowed commits: $allowedCommitCountOnNonFeatureBranch")
-        if(failOnError) {
-            exitProcess(1)
-        }
+    //its a regular branch, so checking for commit count
+    if(numberOfCommits > allowedCommitCount) {
+        failRun("number of commits in current branch are: $numberOfCommits which more than allowed commits: $allowedCommitCount")
     } else {
         println("commit count check passed....")
         println("commit count is as per policy specified.")
     }
 
-
-    //STEP - 4
     //check for commit message as per pattern
+    val commitMessage = commitMessages.firstOrNull()
     val isCommitMessageValid = isCommitMessageValid(
         commitMsgPattern = commitMsgPattern,
-        commitMsg = commitMessages.firstOrNull()
+        commitMsg = commitMessage
     )
     if(isCommitMessageValid)
-        println("commit message is valid as per pattern")
+        println("commit message is valid as per pattern, commitMessage: $commitMessage, commitMsgPattern: $commitMsgPattern\"")
     else {
-        println("commit message verification failed")
-        if(failOnError)
-            exitProcess(1)
+        failRun("commit message verification failed, commitMessage: $commitMessage, commitMsgPattern: $commitMsgPattern")
     }
 
-    //STEP - 5
     //check if ticket number from commit and branch name is same
     if(shouldComparetiketsInBranchNameToCommitMsg) {
         val areTicketNumberAlikeInCommitAndBranchName = checkForTicketFromCommitMessageAndBranchPattern(
@@ -114,24 +96,32 @@ if(!isFeatureBranch) {
         if(areTicketNumberAlikeInCommitAndBranchName) {
             println("ticket number from branch and commit message are alike")
         } else {
-            println("ticket number from branch and commit message are not alike")
-            if(failOnError)
-                exitProcess(1)
+            failRun("ticket number from branch and commit message are not alike")
         }
     }
 } else {
-    //STEP - 6
-    //check if all commits included in the feature branch are unique from thier ticket numbers
+    //Non Regular branch checks
+    //check if all commits included in the non regular branch are unique from their ticket numbers
     val areAllCommitsUnique = checkForTicketFromCommitMessagePattern(
         commitMessages,
         ticketNumberInCommitMsgPattern
     )
     if(areAllCommitsUnique) {
-        println("All commits messages in the feature branch included are unique.")
+        println("All commits messages in the non regular branch included are unique.")
     } else {
-        println("Not all commits messages in the feature branch included are unique.")
-        exitProcess(1) //exit with error
+        failRun("Not all commits messages in the non regular branch included are unique.")
     }
 }
 
-exitProcess(0) //0 means successful workflow run
+//reached the end without any errors,
+successfulRun()
+
+fun successfulRun() {
+    exitProcess(0)
+}
+
+fun failRun(errorMsg: String) {
+    System.err.println(errorMsg)
+    if(failOnError)
+        exitProcess(1)
+}
