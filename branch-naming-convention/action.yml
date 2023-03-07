@@ -49,6 +49,6 @@ runs:
 
     - name: Init Scripts with inputs
       run: |
-        commitMessage="$(git show -s --format=%s)"
+        commitMessage="$(git log --pretty=format:"%s" -n ${{github.event.pull_request.commits}} --no-merges )"
         kotlin ${GITHUB_ACTION_PATH}/src/validate-conventions.main.kts ${{ inputs.event_file_path }} ${{ inputs.branch_name_pattern }} ${{ inputs.allowed_commits_count }} ${{ inputs.commit_message_pattern }} ${{ inputs.should_compare_ticket_in_branch_name_to_commit_message }} ${{ inputs.ticket_number_from_branch_pattern }} ${{ inputs.ticket_from_commit_message_pattern }} "$commitMessage" ${{ inputs.fail_on_error }}
       shell: bash
