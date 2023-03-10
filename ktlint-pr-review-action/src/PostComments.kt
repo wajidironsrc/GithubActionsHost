@@ -99,7 +99,7 @@ fun makeComments(
 
     val githubPrCommentsService = retrofit.create(GithubPrCommentsService::class.java)
     comments.forEach { comment ->
-        githubPrCommentsService
+        val result = githubPrCommentsService
             .createComment(
                 "token $token",
                 event.pull_request.user.login,
@@ -108,6 +108,13 @@ fun makeComments(
                 comment
             )
             .execute()
+        println("result of http while fetching PR changes: $result")
+        println("raw response: ${result.raw()}")
+        println("response message: ${result.message()}")
+        println("response code: ${result.code()}, isSuccessful: ${result.isSuccessful}")
+        if(result.errorBody() != null) {
+            println("error occurred: ${result.errorBody()?.string()}")
+        }
     }
 }
 
