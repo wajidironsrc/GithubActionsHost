@@ -99,9 +99,11 @@ fun GithubService.executeGetPullRequestFiles(
     if(result.errorBody() != null) {
         println("error occurred: ${result.errorBody()?.string()}")
     }
-
-    return result.body()
-        ?: emptyList()
+    val responseItems = result.body() ?: emptyList()
+    responseItems.forEach { changedFile ->
+        println("Changed File: fileName: ${changedFile.filename}, status: ${changedFile.status}, patch: ${changedFile.patch}")
+    }
+    return responseItems
 }
 
 interface GithubService {
